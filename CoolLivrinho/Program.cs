@@ -1,7 +1,14 @@
+using CoolLivrinho.Data;
+using Microsoft.EntityFrameworkCore;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+var connectionString = builder.Configuration.GetConnectionString("LivrariaConnection");
+builder.Services.AddDbContext<LivroContext>(options => options.UseSqlServer(connectionString));
 
 var app = builder.Build();
 

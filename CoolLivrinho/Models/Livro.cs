@@ -5,6 +5,7 @@ namespace Bibliotech.Models
     public class Livro
     {
         public int LivroId { get; set; }
+        
         [Display(Name = ("Título"))]
         public string Titulo { get; set; }
 
@@ -16,7 +17,11 @@ namespace Bibliotech.Models
 
         [Display(Name = ("Categoria"))]
         public int CategoriaId { get; set; }
+        
         [Display(Name = ("Ano de lançamento"))]
         public int AnoLancamento { get; set; }
+
+        public string? CapaUrl { get; set; }
+
     }
 }

@@ -20,13 +20,13 @@
             @Html.DisplayNameFor(model => model.Autor)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Autor.AutorId)
+            @Html.DisplayFor(model => model.Autor.Nome)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Categoria)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Categoria.CategoriaId)
+            @Html.DisplayFor(model => model.Categoria.Nome)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.AnoLancamento)
@@ -37,6 +37,7 @@
     </dl>
 </div>
 <div>
+    <a asp-action="Delete" asp-route-id="@Model?.LivroId">Deletar</a> |
     <a asp-action="Edit" asp-route-id="@Model?.LivroId">Editar</a> |
     <a asp-action="Index">Voltar à lista</a>
 </div>

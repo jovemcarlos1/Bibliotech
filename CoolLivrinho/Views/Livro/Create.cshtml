@@ -17,11 +17,15 @@
             </div>
             <div class="form-group form-group-custom">
                 <label asp-for="AutorId" class="inter-medium control-label"></label>
-                <select asp-for="AutorId" class="inter-medium form-control input-custom" asp-items="ViewBag.AutorId" placeholder="Selecione um autor" ></select>
+                <select asp-for="AutorId" class="inter-medium form-control input-custom" asp-items="ViewBag.AutorId">
+                    <option value="" disabled selected>Selecione um autor</option>
+                </select>
             </div>
             <div class="form-group form-group-custom">
                 <label asp-for="CategoriaId" class="inter-medium control-label"></label>
-                <select asp-for="CategoriaId" class="inter-medium form-control input-custom" asp-items="ViewBag.CategoriaId" placeholder="Selecione uma categoria"></select>
+                <select asp-for="CategoriaId" class="inter-medium form-control input-custom" asp-items="ViewBag.CategoriaId">
+                    <option value="" disabled selected>Selecione uma categoria</option>
+                </select>
             </div>
             <div class="form-group form-group-custom">
                 <label asp-for="AnoLancamento" class="inter-medium control-label"></label>

@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Bibliotech.Data;
+using Bibliotech.Models;
+using Bibliotech.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Bibliotech.Data;
-using Bibliotech.Models;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Net.Http;
+using Newtonsoft.Json.Linq;
 
 namespace Bibliotech.Controllers
 {
@@ -49,8 +53,8 @@ namespace Bibliotech.Controllers
         // GET: Livro/Create
         public IActionResult Create()
         {
-            ViewData["AutorId"] = new SelectList(_context.Autores, "AutorId", "AutorId");
-            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "CategoriaId", "CategoriaId");
+            ViewBag.AutorId = new SelectList(_context.Autores, "AutorId", "Nome");
+            ViewBag.CategoriaId = new SelectList(_context.Categorias, "CategoriaId", "Nome");
             return View();
         }
 
@@ -63,12 +67,15 @@ namespace Bibliotech.Controllers
         {
             if (ModelState.IsValid)
             {
+                var service = new GoogleBooksService();
+                livro.CapaUrl = await service.BuscarCapaLivro(livro.Titulo);
+
                 _context.Add(livro);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AutorId"] = new SelectList(_context.Autores, "AutorId", "AutorId", livro.AutorId);
-            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "CategoriaId", "CategoriaId", livro.CategoriaId);
+            ViewData["AutorId"] = new SelectList(_context.Autores, "AutorId", "Nome", livro.AutorId);
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "CategoriaId", "Nome", livro.CategoriaId);
             return View(livro);
         }
 
@@ -81,12 +88,15 @@ namespace Bibliotech.Controllers
             }
 
             var livro = await _context.Livros.FindAsync(id);
+            
+            
+
             if (livro == null)
             {
                 return NotFound();
             }
-            ViewData["AutorId"] = new SelectList(_context.Autores, "AutorId", "AutorId", livro.AutorId);
-            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "CategoriaId", "CategoriaId", livro.CategoriaId);
+            ViewData["AutorId"] = new SelectList(_context.Autores, "AutorId", "Nome", livro.AutorId);
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "CategoriaId", "Nome", livro.CategoriaId);
             return View(livro);
         }
 
@@ -106,6 +116,9 @@ namespace Bibliotech.Controllers
             {
                 try
                 {
+                    var service = new GoogleBooksService();
+                    livro.CapaUrl = await service.BuscarCapaLivro(livro.Titulo);
+
                     _context.Update(livro);
                     await _context.SaveChangesAsync();
                 }
@@ -166,5 +179,7 @@ namespace Bibliotech.Controllers
         {
             return _context.Livros.Any(e => e.LivroId == id);
         }
+               
+
     }
 }
